@@ -9,15 +9,15 @@ from bottle import route, run, request, static_file
 class sagaOrchestrator():
 
   def __init__(self):
-    self.amount=0
+    self.accounts=dict()
 
-  def add_funds(self, amount):
+  def new_account(self, person):
     ''' 
-    top account with given amount by POST to accounts (not done yet :)
-    return 201 and Location to GET /accounts/balance
+    create account for given person by POST to accounts (not done yet :)
+    return 201 and Location to GET /accounts/:person
     '''
-    self.amount=self.amount+ float(amount)
-    print self.amount
+    self.accounts[person]={'created':True}
+    print self.accounts.items()
 
 if __name__ == '__main__':
   so=sagaOrchestrator()
@@ -30,9 +30,9 @@ if __name__ == '__main__':
   @route('/', method='post')
   #@cas.require would be nice to implement saga orchestration as a decorator
   def accounts():
-    amount=request.forms.get('person')
-    so.add_funds(amount) 
-    return "Hello, %s has been added to your account." %amount
+    person=request.forms.get('person')
+    so.new_account(person) 
+    return "Hello, %s welcome to your new account." %person
 
   # serve static content
   @route('/')
@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
   @route('/favicon.ico')
   def get_favicon():
-    return server_static('favicon.ico')
+    return static_file('favicon.ico', root='js/')
 
   run(app=server, host='0.0.0.0', port=5001)
 

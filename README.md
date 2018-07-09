@@ -22,5 +22,16 @@ no /checks service
 * a js client that thumbs up/down when persons are added
 * a process api that talks to client
 * a checks service that knows about graham (and camilla)
+
+curl -d "person=camilla" -X POST http://localhost:5002/checks
+
+{
+  "results": {
+    "person": "camilla",
+      "pass": true
+  }
+}
+
+
 * an accounts service that logs everything
 
