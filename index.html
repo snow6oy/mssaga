@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>saga</title>
+  <script type="text/javascript" src="/js/saga.js"></script>  
+  <script>
+  saga.baseUrl='http://localhost:5001/';
+  window.addEventListener("load", function(){
+    var form=document.getElementById("loginForm");
+    form.addEventListener("submit", function (event){
+      event.preventDefault();
+      var person=document.getElementById("person").value;
+      var submit=document.getElementById("submit").value;
+      if(submit=='Add funds'){
+        console.log('adding '+ person+ '£ to your fund');
+        form.elements[0].disabled=true; // grey-out during login
+        form.elements[1].disabled=true; 
+        saga.login(person, function(statusCode){ // callback from saga.js
+          console.log("status code "+ statusCode);
+          document.getElementById("person").value=""; // clear the form        
+          if(statusCode==201){ // login succeeded
+            form.elements[0].style.display="none"; // hide to indicate logged-in state
+            form.elements[1].disabled=false;
+            document.getElementById('submit').value='Logout';
+          } else { // reveal for a second attempt
+            form.elements[0].disabled=false;
+            form.elements[1].disabled=false;          
+          }
+        });
+      } else if(submit=='Logout'){
+        saga.logout(function(statusCode){
+          console.log("status code "+ statusCode)
+          if(statusCode==204){ // logout succeeded
+            form.elements[0].disabled=false;            
+            form.elements[0].style.display="block"; // unhide
+            document.getElementById('submit').value='Login';
+          } else {
+            alert('Logout failed!');
+          }
+        });
+      }
+    })
+  })
+  </script>
+  <style media="screen" type="text/css">
+  html, body {
+    height: 100%;
+  }
+  html {
+      display: table;
+      margin: auto;
+  }
+  body {
+      display: table-cell;
+      vertical-align: middle;
+  }  
+  </style>
+</head>
+<body>
+  <h1>saga bank</h1>join us today!
+  <form id="loginForm" action>
+    <input id="person" type=text placeholder="Mr Rich" style="display: block;"/>
+    <input id="submit" type=submit value="Add person" style="display: block;"/>    
+  </form>
+</body>
+</html>
