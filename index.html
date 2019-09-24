@@ -10,12 +10,12 @@
     form.addEventListener("submit", function (event){
       event.preventDefault();
       var person=document.getElementById("person").value;
-      console.log('trying to add '+ person);
+      console.log('about to add '+ person);
       send.new_account(person, function(statusCode){ // callback from saga.js
-        console.log("status code "+ statusCode);
+        console.log("response "+ statusCode);
         document.getElementById("person").value=""; // clear the form        
-        if(statusCode!=200){ // change this to 201 once checks in place
-          alert('Declined, have a nice day.');
+        if(statusCode==204){ // change this to 201 once checks in place
+          console.log('welcome, have a nice day.');
         }
       });
     })

@@ -1,28 +1,29 @@
-2 actors
+# Microservices and the Saga Pattern
+
+## The actors
 
 camilla is lovely
 graham is a cad
+diego is unknown
 
-3 scenarios
+## The scenarios
 
 1. normal service
-* camilla pass checks and creates account
-* graham fails check and has no account
+* camilla is accepted and an account is created
+* graham is declined and has no account
+* diego's account is undecided
 
-2. slow /checks service
-* camilla same
-* graham is told account created but then fails check and no account
+2. The /checks system api is DOWN
+* everyone has an account request in a queue
 
-no /checks service
-* camilla same
-* graham is told account created but account is marked pending check
+## The architecture
 
-4 components
+* a happy javascript client that thumbs up when persons are added
+* a register experience api that always accepts and sends 204
+* an accounts process api that queues or creates depending on the system api
+* a checks system api that knows about graham (and camilla)
 
-* a js client that thumbs up/down when persons are added
-* a process api that talks to client
-* a checks service that knows about graham (and camilla)
-
+```
 curl -d "person=camilla" -X POST http://localhost:5002/checks
 
 {
@@ -31,7 +32,4 @@ curl -d "person=camilla" -X POST http://localhost:5002/checks
       "pass": true
   }
 }
-
-
-* an accounts service that logs everything
-
+```
