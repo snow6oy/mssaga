@@ -2,9 +2,7 @@
 
 ## The actors
 
-camilla is lovely
-graham is a cad
-diego is unknown
+camilla is lovely, graham is a cad and diego is unknown
 
 ## The scenarios
 
