@@ -2,7 +2,7 @@
 '''
 micoservices saga
 '''
-import urllib, urllib2
+import urllib, urllib2, sys
 import bottle
 from bottle import route, run, request, response, static_file
 
@@ -13,11 +13,15 @@ url='http://localhost:5003/accounts'
 def accounts():
   person=request.forms.get('person')
   response.status=204 # accepted
-  values={'person' : person}
-  data=urllib.urlencode(values)
-  req=urllib2.Request(url, data)
-  rsp=urllib2.urlopen(req) # ignore response
-  return "Hello, %s welcome!" %person
+  try:
+    values={'person' : person}
+    data=urllib.urlencode(values)
+    req=urllib2.Request(url, data)
+    rsp=urllib2.urlopen(req) # ignore response
+  except urllib2.URLError, e:
+    print >> sys.stderr, "cannot reach accounts, panic!"
+    response.status=500 # accepted
+  return "Hello, %s welcome!" % person
 
 # serve static content
 @route('/')
