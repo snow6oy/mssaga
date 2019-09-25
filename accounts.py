@@ -28,12 +28,12 @@ class restOrchestrator():
       req=urllib2.Request(url, data)
       rsp=urllib2.urlopen(req)
     except urllib2.URLError, e:
-      print >> sys.stderr, '%s running chek' % e
+      print >> sys.stderr, '%s cannot check' % e
       return 2
     text=rsp.read()
     if text:
       check=json.loads(text)
-      print(check['results']['pass'])
+      # print(check['results']['pass'])
       if check['results']['pass']:
         return 0
     return 1
