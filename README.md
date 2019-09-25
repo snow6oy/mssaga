@@ -12,7 +12,11 @@ camilla is lovely, graham is a cad and diego is unknown
 * diego's account is undecided
 
 2. The /checks system api is DOWN
-* everyone has an account request in a queue
+* everyone is an a queue, but we do not tell them
+
+3. The /accounts process api is DOWN
+* game is up, tell them to come back later
+
 
 ## The architecture
 
